@@ -8,19 +8,20 @@ type account_type =
   | Both of currency * currency   (* with trading and settlement currency *)
 
 module type Account_sig = sig
+  (* abstract types *)
   type t
   type account_no
   type account_name
 
-  (* create a trading account *)
+  (* smart constructor to create a trading account *)
   val create_trading_account: 
     no: account_no -> name: account_name -> trading_currency: currency -> account_open_date: CalendarLib.Calendar.t -> t
 
-  (* create a settlement account *)
+  (* smart constructor to create a settlement account *)
   val create_settlement_account: 
     no: account_no -> name: account_name -> settlement_currency: currency -> account_open_date: CalendarLib.Calendar.t -> t
 
-  (* create a trading and settlement account *)
+  (* smart constructor to create a trading and settlement account *)
   val create_both_account: 
     no: account_no -> name: account_name -> trading_currency: currency -> settlement_currency: currency -> account_open_date: CalendarLib.Calendar.t -> t
 

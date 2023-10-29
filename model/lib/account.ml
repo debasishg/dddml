@@ -26,7 +26,10 @@ module Accountname = struct
 
 end
 
+(* implementation of an account *)
 module Account : Account_sig = struct
+
+  (* hidden implementation for the base parts of an account *)
   type account_base = {
     no: Accountno.t;
     name: Accountname.t;
@@ -34,11 +37,14 @@ module Account : Account_sig = struct
     date_of_close: CalendarLib.Calendar.t option;
   }
 
+  (* the abstract representation of the account *)
   type t = {
     base: account_base;
     account_type: account_type;
   }
 
+  (* the concrete representations of account no and account name *)
+  (* hidden as part of the account representation *)
   type account_no = Accountno.t
   type account_name = Accountname.t
 
