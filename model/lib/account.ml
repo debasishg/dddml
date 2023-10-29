@@ -2,6 +2,7 @@ open Base
 open Id
 open CalendarLib
 open Calendar
+open Account
 
 (* account number and validation *)
 module Account_No = struct
@@ -25,47 +26,21 @@ module Account_Name = struct
 
 end
 
-type currency = USD | JPY | INR | GBP
-
-type account_type = 
-  | Trading of currency           (* with trading currency *)
-  | Settlement of currency        (* with settlement currency *)
-  | Both of currency * currency   (* with trading and settlement currency *)
-
-type account_base = {
-  no: Account_No.t;
-  name: Account_Name.t;
-  date_of_open: CalendarLib.Calendar.t;
-  date_of_close: CalendarLib.Calendar.t option;
-}
-
-module type Account_sig = sig
-  type t
-
-  (* create a trading account *)
-  val create_trading_account: 
-    no: Account_No.t -> name: Account_Name.t -> trading_currency: currency -> account_open_date: CalendarLib.Calendar.t -> t
-
-  (* create a settlement account *)
-  val create_settlement_account: 
-    no: Account_No.t -> name: Account_Name.t -> settlement_currency: currency -> account_open_date: CalendarLib.Calendar.t -> t
-
-  (* create a trading and settlement account *)
-  val create_both_account: 
-    no: Account_No.t -> name: Account_Name.t -> trading_currency: currency -> settlement_currency: currency -> account_open_date: CalendarLib.Calendar.t -> t
-
-  (* close an account *)
-  val close: account: t -> date_of_close: CalendarLib.Calendar.t -> (t, string) Result.t
-
-  (* get the account type *)
-  val account_type: t -> account_type
-end
-
 module Account : Account_sig = struct
+  type account_base = {
+    no: Account_No.t;
+    name: Account_Name.t;
+    date_of_open: CalendarLib.Calendar.t;
+    date_of_close: CalendarLib.Calendar.t option;
+  }
+
   type t = {
     base: account_base;
     account_type: account_type;
   }
+
+  type account_no = Account_No.t
+  type account_name = Account_Name.t
 
   let create_trading_account ~no ~name ~trading_currency ~account_open_date = 
     let base = {
