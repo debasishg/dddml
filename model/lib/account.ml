@@ -5,7 +5,7 @@ open Calendar
 open Account
 
 (* account number and validation *)
-module Account_No = struct
+module Accountno = struct
   include String_id
 
   let validate = 
@@ -17,7 +17,7 @@ module Account_No = struct
 end
 
 (* account name and validation *)
-module Account_Name = struct
+module Accountname = struct
   include String_id
 
   let validate = 
@@ -28,8 +28,8 @@ end
 
 module Account : Account_sig = struct
   type account_base = {
-    no: Account_No.t;
-    name: Account_Name.t;
+    no: Accountno.t;
+    name: Accountname.t;
     date_of_open: CalendarLib.Calendar.t;
     date_of_close: CalendarLib.Calendar.t option;
   }
@@ -39,8 +39,8 @@ module Account : Account_sig = struct
     account_type: account_type;
   }
 
-  type account_no = Account_No.t
-  type account_name = Account_Name.t
+  type account_no = Accountno.t
+  type account_name = Accountname.t
 
   let create_trading_account ~no ~name ~trading_currency ~account_open_date = 
     let base = {
