@@ -1,0 +1,30 @@
+opam-version: "2.0"
+maintainer: "YOUR EMAIL ADDRESS"
+authors: ["YOUR NAME"]
+
+homepage: "https://github.com/USERNAME/proj"
+bug-reports: "https://github.com/USERNAME/proj/issues"
+dev-repo: "git+https://github.com/USERNAME/proj.git"
+version: "dev"
+
+# TODO Pick the relevant SPDX identifier <https://spdx.org/licenses/>
+license: "Unlicense"
+
+synopsis: "_Catchy headline_"
+
+description: """
+_Project description_
+"""
+
+build: [
+  ["dune" "subst"] {pinned}
+  ["dune" "build" "-p" name "-j" jobs]
+]
+
+run-test: ["dune" "runtest" "-p" name]
+
+depends: [
+  "dune"
+  "ocamlformat" { >= "0.26.1" }
+  "alcotest" {with-test}
+]
