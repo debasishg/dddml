@@ -1,4 +1,5 @@
 open Common
+open Validator
 
 module type Account_sig = sig
   (* abstract types *)
@@ -6,17 +7,17 @@ module type Account_sig = sig
   type account_no
   type account_name
   
-  (* smart constructor to create a trading account *)
+  (* smart constructor to create a validated trading account *)
   val create_trading_account: 
-    no: account_no -> name: account_name -> trading_currency: currency -> account_open_date: CalendarLib.Calendar.t -> t
-  
-  (* smart constructor to create a settlement account *)
+    no: account_no -> name: account_name -> trading_currency: currency -> account_open_date: CalendarLib.Calendar.t -> (t, string) validator_result
+
+  (* smart constructor to create a validated settlement account *)
   val create_settlement_account: 
-    no: account_no -> name: account_name -> settlement_currency: currency -> account_open_date: CalendarLib.Calendar.t -> t
+    no: account_no -> name: account_name -> settlement_currency: currency -> account_open_date: CalendarLib.Calendar.t -> (t, string) validator_result
   
-  (* smart constructor to create a trading and settlement account *)
+  (* smart constructor to create a validated trading and settlement account *)
   val create_both_account: 
-    no: account_no -> name: account_name -> trading_currency: currency -> settlement_currency: currency -> account_open_date: CalendarLib.Calendar.t -> t
+    no: account_no -> name: account_name -> trading_currency: currency -> settlement_currency: currency -> account_open_date: CalendarLib.Calendar.t -> (t, string) validator_result
   
   (* close an account *)
   val close: account: t -> date_of_close: CalendarLib.Calendar.t -> (t, string) Result.t

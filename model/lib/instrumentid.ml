@@ -1,25 +1,24 @@
 open Base
 open Id
 
-(* Implementing newtypes for accounts *)
-(* Use [of_string] constructor to construct a validated account no *)
-
-(* account number and validation *)
-module Accountno = struct
+(* ISIN code and validation *)
+module ISINCode = struct
   include String_id
 
   let validate = 
     let open Validator in
+    let open Tvalidator in
     (string_has_max_length 12 "Too long")
     |> compose
-      (string_has_min_length 3 "Too short")
+      (string_has_min_length 12 "Too short")
+    |> compose
+      (TradingValidator.string_is_isin "Invalid isin")
 
   let of_string x = validate x
-
 end
 
-(* account name and validation *)
-module Accountname = struct
+(* instrument name and validation *)
+module Instrumentname = struct
   include String_id
 
   let validate = 
@@ -27,5 +26,4 @@ module Accountname = struct
     string_is_not_empty "Empty"
 
   let of_string x = validate x
-
 end
